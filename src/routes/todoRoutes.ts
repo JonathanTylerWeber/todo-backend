@@ -1,17 +1,19 @@
 import { Router } from "express";
-import { authenticateToken } from "../middleware/authMiddleware";
+import asyncHandler from "../middleware/asyncHandler";
 import {
   createTodoHandler,
   updateTodoHandler,
-  getAllTodosHandler,
   deleteTodoHandler,
+  getUserTodosHandler,
 } from "../controllers/todoController";
+import { validateUserId, checkTodoOwnership, authenticateToken } from "../middleware/auth";
 
 const router = Router();
 
-router.post("/", authenticateToken, createTodoHandler);
-router.patch("/:id", authenticateToken, updateTodoHandler);
-router.get("/", authenticateToken, getAllTodosHandler);
-router.delete("/:id", authenticateToken, deleteTodoHandler);
+router.get("/", authenticateToken, validateUserId, asyncHandler(getUserTodosHandler));
+router.post("/", authenticateToken, validateUserId, asyncHandler(createTodoHandler));
+router.patch("/:id", authenticateToken, validateUserId, checkTodoOwnership, asyncHandler(updateTodoHandler));
+router.delete("/:id", authenticateToken, validateUserId, checkTodoOwnership, asyncHandler(deleteTodoHandler));
+
 
 export default router;

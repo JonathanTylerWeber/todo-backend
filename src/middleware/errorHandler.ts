@@ -1,16 +1,25 @@
-import { Request, Response, NextFunction } from "express";
+import { ErrorRequestHandler, Request, Response, NextFunction } from "express";
+import { ExpressError } from "./expressError";
 
-const errorHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
-  console.error(err); // Log the error for debugging
+export const errorHandler: ErrorRequestHandler = (
+  error: ExpressError | Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  console.error("Error:", error); // Log the error for debugging
 
-  if (err instanceof Error) {
-    // If the error is an instance of the Error class, send the error message
-    res.status(500).json({ message: err.message });
-    return;
+  if (error instanceof ExpressError) {
+    res.status(error.status).json({ message: error.message });
+  } else {
+    // Log unexpected errors with more context
+    console.error("Unexpected Error:", {
+      message: error.message,
+      stack: error.stack,
+      path: req.originalUrl,
+      method: req.method,
+    });
+
+    res.status(500).json({ message: "Internal Server Error" });
   }
-
-  // For any other type of error, send a generic message
-  res.status(500).json({ message: "Something went wrong" });
 };
-
-export default errorHandler;
