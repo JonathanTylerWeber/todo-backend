@@ -1,8 +1,9 @@
 // authRoutes.ts
 import { Router } from "express";
-import * as AuthController from "../controllers/authController";
-import asyncHandler from "../middleware/asyncHandler";
 import rateLimit from "express-rate-limit"; // Import express-rate-limit
+import asyncHandler from "../middleware/asyncHandler";
+import validateUser from '../middleware/validateUser';
+import * as AuthController from "../controllers/authController";
 
 const router = Router();
 
@@ -16,7 +17,7 @@ const limiter = rateLimit({
 });
 
 // Apply the rate limiter to the authentication routes
-router.post("/signup", limiter, asyncHandler(AuthController.signup));
-router.post("/login", limiter, asyncHandler(AuthController.login));
+router.post("/signup", limiter, validateUser, asyncHandler(AuthController.signup));
+router.post("/login", limiter, validateUser, asyncHandler(AuthController.login));
 
 export default router;
