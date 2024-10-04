@@ -1,4 +1,4 @@
-// authRoutes.ts
+// src/routes/authRoutes.ts
 import { Router } from "express";
 import rateLimit from "express-rate-limit"; // Import express-rate-limit
 import asyncHandler from "../middleware/asyncHandler";

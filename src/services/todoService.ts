@@ -1,5 +1,5 @@
 import { BadRequestError, NotFoundError } from '../middleware/expressError';
-import prisma from '../prisma/client';
+import prisma from '../client';
 import { Todo } from '@prisma/client';
 
 

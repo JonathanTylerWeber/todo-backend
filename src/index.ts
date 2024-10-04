@@ -1,9 +1,9 @@
-// index.ts
+// src/index.ts
 import express from "express";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan'
-import prisma from './prisma/client';
+import prisma from './client';
 import helmet from 'helmet';
 import todoRoutes from './routes/todoRoutes';
 import authRoutes from './routes/authRoutes';
@@ -11,9 +11,7 @@ import { errorHandler } from "./middleware/errorHandler";
 import { NotFoundError } from "./middleware/expressError";
 
 dotenv.config();
-
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(helmet()); // Use helmet for security headers
@@ -44,7 +42,4 @@ process.on('SIGTERM', async () => {
   process.exit(0); // Exit the process
 });
 
-// start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+export default app; 

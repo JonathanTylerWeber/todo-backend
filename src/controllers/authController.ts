@@ -1,3 +1,4 @@
+// src/controllers/authController.ts
 import { Request, Response } from "express";
 import * as AuthService from "../services/authService";
 
@@ -11,6 +12,6 @@ export const signup = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const { user, token } = await AuthService.login(email, password);
+  const { token } = await AuthService.login(email, password);
   res.status(200).json({ token, message: "Logged in successfully" });
 };
