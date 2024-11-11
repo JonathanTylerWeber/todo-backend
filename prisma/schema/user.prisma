@@ -1,0 +1,11 @@
+// prisma/schema/user.prisma
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  email    String @unique
+  todos    Todo[]
+
+  @@map("User")
+}

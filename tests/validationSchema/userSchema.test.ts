@@ -1,6 +1,6 @@
 // src/tests/userSchema.test.ts
 
-import { signupSchema, loginSchema } from '../../src/schemas/userSchema';
+import { signupSchema, loginSchema } from '../../src/validationSchema/userSchema';
 
 describe('User Schema Validation', () => {
   // Signup schema tests

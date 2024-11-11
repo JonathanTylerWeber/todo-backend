@@ -2,7 +2,7 @@
 import jwt from "jsonwebtoken";
 import prisma from '../client';
 import bcrypt from 'bcrypt';
-import { BadRequestError, ConflictError, UnauthorizedError } from "../middleware/expressError";
+import { BadRequestError, ConflictError, UnauthorizedError } from "../middleware/errors/expressError";
 
 const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 13;
 
@@ -18,7 +18,7 @@ export const signup = async (username: string, email: string, password: string) 
     data: { username, password: hashedPassword, email },
   });
 
-  const token = jwt.sign({ username, userId: newUser.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+  const token = jwt.sign({ username, id: newUser.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
   return { user: newUser, token };
 };
 
@@ -38,6 +38,6 @@ export const login = async (email: string, password: string) => {
     throw new UnauthorizedError("Invalid password.");
   }
 
-  const token = jwt.sign({ email, userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+  const token = jwt.sign({ email, id: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
   return { user, token };
 };

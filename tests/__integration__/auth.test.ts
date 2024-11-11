@@ -1,4 +1,4 @@
-// src/tests/auth.test.ts
+// tests/__integration__/auth.test.ts
 
 import request from 'supertest';
 import app from '../../src/index';

@@ -1,10 +1,12 @@
-import { BadRequestError, NotFoundError } from '../middleware/expressError';
+// src/services/todoService.ts
+
+import { BadRequestError, NotFoundError } from '../middleware/errors/expressError';
 import prisma from '../client';
 import { Todo } from '@prisma/client';
 
 
 export const createTodo = async (userId: number, title: string, description: string) => {
-  if (!title || !description) throw new BadRequestError("Title and description are required.");
+  if (!title) throw new BadRequestError("Title is required.");
 
   return await prisma.todo.create({
     data: {
@@ -21,7 +23,7 @@ export const getUserTodos = async (userId: number) => {
     where: { userId },
   });
 
-  if (!todos) throw new NotFoundError("No todos found for this user.");
+  if (todos.length === 0) throw new NotFoundError("No todos found for this user.");
   return todos;
 };
 

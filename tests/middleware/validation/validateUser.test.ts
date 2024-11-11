@@ -1,5 +1,5 @@
-import validateUser from '../../src/middleware/validateUser';
-import { signupSchema } from '../../src/schemas/userSchema';
+import validateUser from '../../../src/middleware/validation/validateUser';
+import { signupSchema } from '../../../src/validationSchema/userSchema';
 
 describe('validateUser Middleware', () => {
   let req: any;
@@ -8,7 +8,10 @@ describe('validateUser Middleware', () => {
 
   beforeEach(() => {
     req = { body: {} };
-    res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn()
+    };
     next = jest.fn();
   });
 

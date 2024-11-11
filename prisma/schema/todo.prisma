@@ -1,0 +1,11 @@
+// prisma/schema/todo.prisma
+
+model Todo {
+  id          Int    @id @default(autoincrement())
+  userId      Int
+  title       String
+  description String
+  user        User   @relation(fields: [userId], references: [id])
+
+  @@map("Todo")
+}

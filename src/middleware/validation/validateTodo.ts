@@ -1,6 +1,8 @@
+// src/middleware/validation/validateTodo.ts
+
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
-import todoSchema from '../schemas/todoSchema';
+import todoSchema from '../../validationSchema/todoSchema';
 
 const validateTodo = (req: Request, res: Response, next: NextFunction) => {
   try {

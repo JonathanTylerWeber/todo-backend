@@ -1,8 +1,9 @@
+// tests/services/authService.test.ts
 import * as AuthService from '../../src/services/authService';
 import prisma from '../../src/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { ConflictError, UnauthorizedError } from '../../src/middleware/expressError';
+import { ConflictError, UnauthorizedError } from '../../src/middleware/errors/expressError';
 
 jest.mock('../../src/client', () => ({
   user: {

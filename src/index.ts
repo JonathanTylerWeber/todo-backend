@@ -3,12 +3,11 @@ import express from "express";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan'
-import prisma from './client';
 import helmet from 'helmet';
 import todoRoutes from './routes/todoRoutes';
 import authRoutes from './routes/authRoutes';
-import { errorHandler } from "./middleware/errorHandler";
-import { NotFoundError } from "./middleware/expressError";
+import { errorHandler } from "./middleware/errors/errorHandler";
+import { NotFoundError } from "./middleware/errors/expressError";
 
 dotenv.config();
 const app = express();
@@ -28,18 +27,5 @@ app.use((req, res, next) => {
 
 // Error handler
 app.use(errorHandler);
-
-// Listen for termination signals
-process.on('SIGINT', async () => {
-  console.log('SIGINT signal received: closing Prisma Client');
-  await prisma.$disconnect(); // Gracefully disconnect from the database
-  process.exit(0); // Exit the process
-});
-
-process.on('SIGTERM', async () => {
-  console.log('SIGTERM signal received: closing Prisma Client');
-  await prisma.$disconnect(); // Gracefully disconnect from the database
-  process.exit(0); // Exit the process
-});
 
 export default app; 

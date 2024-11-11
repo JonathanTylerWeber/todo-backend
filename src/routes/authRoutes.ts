@@ -2,7 +2,7 @@
 import { Router } from "express";
 import rateLimit from "express-rate-limit"; // Import express-rate-limit
 import asyncHandler from "../middleware/asyncHandler";
-import validateUser from '../middleware/validateUser';
+import validateUser from '../middleware/validation/validateUser';
 import * as AuthController from "../controllers/authController";
 
 const router = Router();

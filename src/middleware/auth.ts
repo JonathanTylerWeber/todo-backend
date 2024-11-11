@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import * as TodoService from "../services/todoService";
-import { ForbiddenError, NotFoundError, UnauthorizedError } from "./expressError";
+import { ForbiddenError, NotFoundError, UnauthorizedError } from "./errors/expressError";
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction): void => {
   const token = req.headers.authorization?.split(" ")[1];
@@ -16,16 +16,14 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
       return next(new ForbiddenError("Forbidden: Invalid Token"));
     }
 
-    if (user && typeof user === 'object') {
-      req.userId = (user as JwtPayload).userId; // Ensure userId is set
-    }
+    req.user = { id: (user as any).id };
 
     next(); // Proceed to the next middleware
   });
 };
 
 export const validateUserId = (req: Request, res: Response, next: NextFunction): void => {
-  const userId = req.userId;
+  const userId = req.user?.id;
   if (typeof userId !== 'number') {
     return next(new UnauthorizedError("Unauthorized: Invalid user ID"));
   }
@@ -33,7 +31,7 @@ export const validateUserId = (req: Request, res: Response, next: NextFunction):
 };
 
 export const checkTodoOwnership = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const userId = req.userId;
+  const userId = req.user?.id;
   const todoId = parseInt(req.params.id);
   const todo = await TodoService.getTodoById(todoId);
 

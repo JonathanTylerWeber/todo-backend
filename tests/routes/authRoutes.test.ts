@@ -3,7 +3,7 @@
 import request from 'supertest';
 import app from '../../src/index';
 import * as AuthService from '../../src/services/authService';
-import { UnauthorizedError } from '../../src/middleware/expressError';
+import { UnauthorizedError } from '../../src/middleware/errors/expressError';
 
 jest.mock('../../src/services/authService');
 
